@@ -5,8 +5,7 @@
 #include "..\glob.h"
 
 // define two Tasks for DigitalRead & AnalogRead
-void TaskDigitalRead( void *pvParameters );
-void TaskTxDataRF( void *pvParameters );
-void TaskRxDataRF( void *pvParameters );
-void TaskDisplayData( void *pvParameters );
+void Task15ms( void *pvParameters );
+void Task90ms( void *pvParameters );
+void Task990ms( void *pvParameters );
 void createTasks();

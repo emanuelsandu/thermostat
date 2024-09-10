@@ -15,32 +15,24 @@ void createTasks(){
 
   // Now set up two Tasks to run independently.
   xTaskCreate(
-    TaskDigitalRead
-    ,  "DigitalRead"  // A name just for humans
+    Task15ms
+    ,  "15ms"  // A name just for humans
     ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
     ,  NULL //Parameters for the task
     ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  NULL ); //Task Handle
 
   xTaskCreate(
-    TaskTxDataRF
-    ,  "TxData" // A name just for humans
+    Task90ms
+    ,  "90ms" // A name just for humans
     ,  128  // Stack size
     ,  NULL //Parameters for the task
     ,  1  // Priority
     ,  NULL ); //Task Handle
 
   xTaskCreate(
-    TaskRxDataRF
-    ,  "RxData" // A name just for humans
-    ,  128  // Stack size
-    ,  NULL //Parameters for the task
-    ,  1  // Priority
-    ,  NULL ); //Task Handle
-
-  xTaskCreate(
-    TaskDisplayData
-    ,  "DisplayData" // A name just for humans
+    Task990ms
+    ,  "990ms" // A name just for humans
     ,  128  // Stack size
     ,  NULL //Parameters for the task
     ,  1  // Priority
@@ -49,7 +41,7 @@ void createTasks(){
   // Now the Task scheduler, which takes over control of scheduling individual Tasks, is automatically started.
 }
 
-void TaskDigitalRead( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task15ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
   /*
     DigitalReadSerial
@@ -79,7 +71,7 @@ void TaskDigitalRead( void *pvParameters __attribute__((unused)) )  // This is a
   }
 }
 
-void TaskTxDataRF( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
   for (;;)
@@ -102,30 +94,7 @@ void TaskTxDataRF( void *pvParameters __attribute__((unused)) )  // This is a Ta
   }
 }
 
-void TaskRxDataRF( void *pvParameters __attribute__((unused)) )  // This is a Task.
-{
-
-  for (;;)
-  {
-    // read the input on analog pin 0:
-
-    // See if we can obtain or "Take" the Serial Semaphore.
-    // If the semaphore is not available, wait 5 ticks of the Scheduler to see if it becomes free.
-    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) 5 ) == pdTRUE )
-    {
-      // We were able to obtain or "Take" the semaphore and can now access the shared resource.
-      // We want to have the Serial Port for us alone, as it takes some time to print,
-      // so we don't want it getting stolen during the middle of a conversion.
-      // print out the value you read:
-
-      xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
-    }
-
-    vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
-  }
-}
-
-void TaskDisplayData( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
   for (;;)
