@@ -10,7 +10,7 @@ OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor 
 DallasTemperature TempSensor=DallasTemperature(&oneWire);
 
-int ReadTemperature()
+int ReadRoomTemperature()
 {
     int roomTemp;
     TempSensor.requestTemperatures();

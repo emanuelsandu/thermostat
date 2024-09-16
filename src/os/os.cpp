@@ -86,7 +86,7 @@ void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
       // We want to have the Serial Port for us alone, as it takes some time to print,
       // so we don't want it getting stolen during the middle of a conversion.
       // print out the value you read:
-      ReadTemperature();
+      
       MenuHandling();
 
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.

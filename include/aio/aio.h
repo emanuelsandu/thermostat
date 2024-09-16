@@ -5,6 +5,6 @@
 #include <DallasTemperature.h>
 #include "..\glob.h"
 
-int ReadTemperature();
+int ReadRoomTemperature();
 
 #endif

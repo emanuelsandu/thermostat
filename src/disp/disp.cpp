@@ -23,5 +23,5 @@ void DisplayWrite(int setTemp)
     Display16x2.print(setTemp);
     Display16x2.setCursor(CursorStart0,SecondRow);
     Display16x2.print("Room: ");
-    Display16x2.print(ReadTemperature());
+    Display16x2.print(ReadRoomTemperature());
 }
