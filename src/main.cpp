@@ -1,5 +1,6 @@
 
 #include <Arduino.h>
+#include "..\include\aio\aio.h"
 #include "..\include\com\com.h"
 #include "..\include\dio\dio.h"
 #include "..\include\disp\disp.h"

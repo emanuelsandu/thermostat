@@ -4,6 +4,7 @@
 #include <semphr.h>  // add the FreeRTOS functions for Semaphores (or Flags).
 #include "..\glob.h"
 #include "..\ui\ui.h"
+#include "..\aio\aio.h"
 
 #define configBlockResTickPeriod 6
 
