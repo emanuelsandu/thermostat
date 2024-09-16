@@ -9,6 +9,8 @@ void DisplaySetup()
     Display16x2.backlight();
     Display16x2.noCursor();
     Display16x2.noBlink();
+    Display16x2.setCursor(CursorStart0,FirstRow);
+    Display16x2.print("INITIALIZING...");
 }
 
 void DisplayClear()

@@ -2,7 +2,7 @@
 
 
 // GPIO where the DS18B20 is connected to
-const int oneWireBus = TemperatureSensor;     
+const int oneWireBus = TemperatureSensorPin;     
 
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);

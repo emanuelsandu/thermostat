@@ -9,6 +9,7 @@
 #define configBlockResTickPeriod 6
 
 // define two Tasks for DigitalRead & AnalogRead
+void TaskInit( void *pvParameters );
 void Task15ms( void *pvParameters );
 void Task90ms( void *pvParameters );
 void Task990ms( void *pvParameters );
