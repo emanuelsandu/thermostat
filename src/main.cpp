@@ -5,6 +5,8 @@
 #include "..\include\disp\disp.h"
 #include "..\include\os\os.h"
 #include"..\include\glob.h"
+#include "..\include\ui\ui.h"
+
 
 
 // the setup function runs once when you press reset or power the board

@@ -35,7 +35,7 @@ void createTasks(){
     ,  "990ms" // A name just for humans
     ,  128  // Stack size
     ,  NULL //Parameters for the task
-    ,  1  // Priority
+    ,  3  // Priority
     ,  NULL ); //Task Handle
 
   // Now the Task scheduler, which takes over control of scheduling individual Tasks, is automatically started.
@@ -56,7 +56,7 @@ void Task15ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 
     // See if we can obtain or "Take" the Serial Semaphore.
     // If the semaphore is not available, wait 5 ticks of the Scheduler to see if it becomes free.
-    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) 5 ) == pdTRUE )
+    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {
       // We were able to obtain or "Take" the semaphore and can now access the shared resource.
       // We want to have the Serial Port for us alone, as it takes some time to print,
@@ -80,17 +80,17 @@ void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 
     // See if we can obtain or "Take" the Serial Semaphore.
     // If the semaphore is not available, wait 5 ticks of the Scheduler to see if it becomes free.
-    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) 5 ) == pdTRUE )
+    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {
       // We were able to obtain or "Take" the semaphore and can now access the shared resource.
       // We want to have the Serial Port for us alone, as it takes some time to print,
       // so we don't want it getting stolen during the middle of a conversion.
       // print out the value you read:
-
+      MenuHandling();
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(6);  // one tick delay (15ms) in between reads for stability
   }
 }
 
@@ -103,7 +103,7 @@ void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 
     // See if we can obtain or "Take" the Serial Semaphore.
     // If the semaphore is not available, wait 5 ticks of the Scheduler to see if it becomes free.
-    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) 5 ) == pdTRUE )
+    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {
       // We were able to obtain or "Take" the semaphore and can now access the shared resource.
       // We want to have the Serial Port for us alone, as it takes some time to print,
@@ -113,6 +113,6 @@ void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(66);  // one tick delay (15ms) in between reads for stability
   }
 }

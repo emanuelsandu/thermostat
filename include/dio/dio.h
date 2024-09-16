@@ -1,4 +1,7 @@
 #include <Button2.h>
 #include "..\glob.h"
 
-void ReadButtonPlus();
+int ReadButtonPlus();
+int ReadButtonMinus();
+int ReadButtonOk();
+int ReadButtonCancel();
