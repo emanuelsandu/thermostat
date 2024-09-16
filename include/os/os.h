@@ -5,6 +5,7 @@
 #include "..\glob.h"
 #include "..\ui\ui.h"
 #include "..\aio\aio.h"
+#include "..\com\com.h"
 
 #define configBlockResTickPeriod 6
 

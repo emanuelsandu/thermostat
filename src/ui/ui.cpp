@@ -2,6 +2,7 @@
 #include "..\..\include\dio\dio.h"
 
 int temp=0;
+int initUI=0;
 
 void PageSetup()
 {
@@ -27,37 +28,33 @@ void MenuHandling()
 {
 
 
-    if(initMenu==0)
-    {
-        PageSetup();
-        DisplaySetup();
-        
-        initMenu=1;
-    }
 
-    if(ReadButtonPlus())
+    if(ReadButtonPlus() || initUI==0)
     {
         temp=temp+ReadButtonPlus();
-    }
-    if(temp>30) temp=30;
+        if(temp>30) temp=30;
+            
+        switch (0 )//ThermostatPage.ID)
+        {
+        case ThermostatMainPageID://ThermostatMenu.Main.ID:
+            DisplayClear();
+            UIMainPage(temp);
+            break;
+        case ThermostatSettingsPageID://ThermostatMenu.Settings.ID:
+            DisplayClear();
+            break;
+        case ThermostatDebugPageID:
+            DisplayClear();
+            break;
+        default:
+            DisplayClear();
+            //DisplayMainPage();
+            break;
+        }
 
-    switch (0 )//ThermostatPage.ID)
-    {
-    case ThermostatMainPageID://ThermostatMenu.Main.ID:
-        DisplayClear();
-        UIMainPage(temp);
-        break;
-    case ThermostatSettingsPageID://ThermostatMenu.Settings.ID:
-        DisplayClear();
-        break;
-    case ThermostatDebugPageID:
-        DisplayClear();
-        break;
-    default:
-        DisplayClear();
-        //DisplayMainPage();
-        break;
     }
+    if(initUI==0) initUI=1;
+
 
 }
 

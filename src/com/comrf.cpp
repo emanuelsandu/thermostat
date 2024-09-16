@@ -18,19 +18,15 @@ void NRF24Setup() {
 
 void NRF24Handler() 
 {
-/*   NRF24COM.startListening();                    //This sets the module as receiver
+  NRF24COM.startListening();                    //This sets the module as receiver
   if (NRF24COM.available())                     //Looking for incoming data
   {
+
     NRF24COM.read(&button_stateA,  sizeof(button_stateA));
-    if(button_stateA == LOW)
-  {
-  }
-  else
-  {
-  }
-  
-  NRF24COM.stopListening();                           //This sets the module  as transmitter
-  button_stateB = 0;///digitalRead(button_pinB);
-  NRF24COM.write(&button_stateB,  sizeof(button_stateB));   //Sending the data
-  } */
+     
+    NRF24COM.stopListening();                           //This sets the module  as transmitter
+    button_stateB = 0;///digitalRead(button_pinB);
+    
+    NRF24COM.write(&button_stateB,  sizeof(button_stateB));   //Sending the data
+  } 
 }

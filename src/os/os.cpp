@@ -8,6 +8,8 @@ TaskHandle_t xTask15ms;
 TaskHandle_t xTask90ms;
 TaskHandle_t xTask990ms;
 
+int initApp=0;
+
 void createTasks(){
 
     if ( xSerialSemaphore == NULL )  // Check to confirm that the Serial Semaphore has not already been created.
@@ -19,7 +21,7 @@ void createTasks(){
 
   // Now set up two Tasks to run independently.
 
- /*  
+/*  
   xTaskCreate(
     TaskInit
     ,  "Init"  // A name just for humans
@@ -27,13 +29,13 @@ void createTasks(){
     ,  NULL //Parameters for the task
     ,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  &xTaskInit ); //Task Handle
- */
+  */
   xTaskCreate(
     Task15ms
     ,  "15ms"  // A name just for humans
     ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
     ,  NULL //Parameters for the task
-    ,  2  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
+    ,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
     ,  &xTask15ms ); //Task Handle
 
   xTaskCreate(
@@ -41,7 +43,7 @@ void createTasks(){
     ,  "90ms" // A name just for humans
     ,  128  // Stack size
     ,  NULL //Parameters for the task
-    ,  1  // Priority
+    ,  2  // Priority
     ,  &xTask90ms ); //Task Handle
 
   xTaskCreate(
@@ -49,7 +51,7 @@ void createTasks(){
     ,  "990ms" // A name just for humans
     ,  128  // Stack size
     ,  NULL //Parameters for the task
-    ,  2  // Priority
+    ,  0  // Priority
     ,  &xTask990ms ); //Task Handle
 
   // Now the Task scheduler, which takes over control of scheduling individual Tasks, is automatically started.
@@ -57,16 +59,16 @@ void createTasks(){
 
 void TaskInit( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
-  for (;;) // A Task shall never return or exit.
-  {
-    if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
+  if(initMenu==0){
+    for (;;) // A Task shall never return or exit.
     {
-      xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
-    }
+      DisplaySetup();
 
-    vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
+      vTaskDelay(10);  // one tick delay (15ms) in between reads for stability
+    }
+    //vTaskSuspend(NULL);
+
   }
-  vTaskSuspend(NULL);
 }
 
 void Task15ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
@@ -107,6 +109,15 @@ void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
   {
     if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {
+      if(initApp==0)
+      {
+          PageSetup();
+          NRF24Setup();
+          DisplaySetup();
+          delay(1000);
+          
+          initApp=1;
+      }
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 

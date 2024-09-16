@@ -28,8 +28,8 @@ void ButtonSetup()
 
 void ButtonCheck(Button2& btn)
 {
-  ButtonPlus.loop();
-  ButtonMinus.loop();
+  //ButtonPlus.loop();
+  //ButtonMinus.loop();
 }
 
 void ButtonHandler(Button2& btn)
