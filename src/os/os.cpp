@@ -118,6 +118,7 @@ void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
           
           initApp=1;
       }
+      
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
