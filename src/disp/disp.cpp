@@ -1,6 +1,6 @@
 #include"..\include\disp\disp.h"
 
-LiquidCrystal_I2C Display16x2(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
+LiquidCrystal_I2C Display16x2=LiquidCrystal_I2C(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
 
 void DisplaySetup()
 {
@@ -17,8 +17,8 @@ void DisplayClear()
 
 void DisplayWrite()
 {
-    Display16x2.setCursor(0,0);
+    Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("Set: ");
-    Display16x2.setCursor(1,0);
+    Display16x2.setCursor(CursorStart0,SecondRow);
     Display16x2.print("Room: ");
 }
