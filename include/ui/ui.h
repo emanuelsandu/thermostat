@@ -31,7 +31,7 @@ struct Menu
 
 void PageSetup();
 void MenuHandling();
-void UIMainPage();
+void UIMainPage(int setTemp);
 void UISettingsPage();
 void UIDebugPage();
 

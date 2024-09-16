@@ -10,6 +10,6 @@
 
 void DisplaySetup();
 void DisplayClear();
-void DisplayWrite();
+void DisplayWrite(int setTemp);
 
 #endif

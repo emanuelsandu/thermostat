@@ -15,10 +15,11 @@ void DisplayClear()
     Display16x2.clear();
 }
 
-void DisplayWrite()
+void DisplayWrite(int setTemp)
 {
     Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("Set: ");
+    Display16x2.print(setTemp);
     Display16x2.setCursor(CursorStart0,SecondRow);
     Display16x2.print("Room: ");
 }

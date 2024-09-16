@@ -1,4 +1,7 @@
 #include "..\..\include\ui\ui.h"
+#include "..\..\include\dio\dio.h"
+
+int temp=0;
 
 void PageSetup()
 {
@@ -22,6 +25,8 @@ void PageSetup()
 
 void MenuHandling()
 {
+
+
     if(initMenu==0)
     {
         PageSetup();
@@ -30,11 +35,17 @@ void MenuHandling()
         initMenu=1;
     }
 
+    if(ReadButtonPlus())
+    {
+        temp=temp+ReadButtonPlus();
+    }
+    if(temp>30) temp=30;
+
     switch (0 )//ThermostatPage.ID)
     {
     case ThermostatMainPageID://ThermostatMenu.Main.ID:
         DisplayClear();
-        UIMainPage();
+        UIMainPage(temp);
         break;
     case ThermostatSettingsPageID://ThermostatMenu.Settings.ID:
         DisplayClear();
@@ -47,16 +58,17 @@ void MenuHandling()
         //DisplayMainPage();
         break;
     }
+
 }
 
-void UIMainPage()
+void UIMainPage(int setTemp)
 {
     //String DisplayRow1;
     //char* DisplayRow2;
 
     //DisplayRow1="Set: ";
     //DisplayRow2="Room: ";
-    DisplayWrite();
+    DisplayWrite(setTemp);
 }
 
 void UISettingsPage()
