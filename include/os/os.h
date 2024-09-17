@@ -9,6 +9,11 @@
 #include "..\aio\aio.h"
 #include "..\com\com.h"
 
+extern SemaphoreHandle_t xSerialSemaphore;
+extern TaskHandle_t xTaskInit;
+extern TaskHandle_t xTask10ms;
+extern TaskHandle_t xTask100ms;
+extern TaskHandle_t xTask1000ms; 
 
 // define two Tasks for DigitalRead & AnalogRead
 void TaskInit( void *pvParameters );
