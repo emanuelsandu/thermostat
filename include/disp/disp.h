@@ -8,6 +8,7 @@
 #define SecondRow 1
 #define CursorStart0 0
 
+void DisplayInit();
 void DisplaySetup();
 void DisplayClear();
 void DisplayWrite(int setTemp);

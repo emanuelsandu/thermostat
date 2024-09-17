@@ -4,9 +4,9 @@
 // It will be used to ensure only one Task is accessing this resource at any time.
 SemaphoreHandle_t xSerialSemaphore;
 TaskHandle_t xTaskInit;
-TaskHandle_t xTask15ms;
-TaskHandle_t xTask90ms;
-TaskHandle_t xTask990ms;
+TaskHandle_t xTaskOneCycle;
+TaskHandle_t xTask100ms;
+TaskHandle_t xTask1s;
 
 int initApp=0;
 
@@ -19,40 +19,9 @@ void createTasks(){
       xSemaphoreGive( ( xSerialSemaphore ) );  // Make the Serial Port available for use, by "Giving" the Semaphore.
   }
 
-  // Now set up two Tasks to run independently.
-
-/*  
-  xTaskCreate(
-    TaskInit
-    ,  "Init"  // A name just for humans
-    ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
-    ,  NULL //Parameters for the task
-    ,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-    ,  &xTaskInit ); //Task Handle
-  */
-  xTaskCreate(
-    Task15ms
-    ,  "15ms"  // A name just for humans
-    ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
-    ,  NULL //Parameters for the task
-    ,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-    ,  &xTask15ms ); //Task Handle
-
-  xTaskCreate(
-    Task90ms
-    ,  "90ms" // A name just for humans
-    ,  128  // Stack size
-    ,  NULL //Parameters for the task
-    ,  2  // Priority
-    ,  &xTask90ms ); //Task Handle
-
-  xTaskCreate(
-    Task990ms
-    ,  "990ms" // A name just for humans
-    ,  128  // Stack size
-    ,  NULL //Parameters for the task
-    ,  0  // Priority
-    ,  &xTask990ms ); //Task Handle
+  xTaskCreate(    TaskOneCycle,   "15ms"  ,  128, NULL,  1,   &xTaskOneCycle ); //Task Handle
+  xTaskCreate(    Task100ms,      "100ms" ,  128, NULL,  2,   &xTask100ms ); //Task Handle
+  xTaskCreate(    Task1s,         "1s"    ,  128, NULL,  0,   &xTask1s ); //Task Handle
 
   // Now the Task scheduler, which takes over control of scheduling individual Tasks, is automatically started.
 }
@@ -64,29 +33,27 @@ void TaskInit( void *pvParameters __attribute__((unused)) )  // This is a Task.
     {
       DisplaySetup();
 
-      vTaskDelay(10);  // one tick delay (15ms) in between reads for stability
+      vTaskDelay(Task10msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
     }
     //vTaskSuspend(NULL);
 
   }
 }
 
-void Task15ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void TaskOneCycle( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
   for (;;) // A Task shall never return or exit.
   {
     if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {
-      //Serial.println(buttonState);
-
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
-
-    vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
+    //vTaskDelay(Task10msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(configBlockResTickPeriod);
   }
 }
 
-void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task100ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
   for (;;)
@@ -98,11 +65,12 @@ void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(6);  // one tick delay (15ms) in between reads for stability
+    //vTaskDelay(Task100msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(configBlockResTickPeriod*7);
   }
 }
 
-void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task1s( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
   for (;;)
@@ -122,6 +90,7 @@ void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(66);  // one tick delay (15ms) in between reads for stability
+    //vTaskDelay(Task1000msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(configBlockResTickPeriod*12);
   }
 }

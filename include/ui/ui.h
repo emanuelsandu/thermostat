@@ -28,7 +28,7 @@ struct Menu
 
 //Page ThermostatPage;
 //Menu ThermostatMenu;
-
+void UIInit();
 void PageSetup();
 void MenuHandling();
 void UIMainPage(int setTemp);

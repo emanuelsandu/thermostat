@@ -6,7 +6,7 @@
 
 #define ButtonLongPressTime_ms 3000
 
-
+void ButtonInit();
 void ButtonSetup();
 void ButtonCheck(Button2& btn);
 void ButtonHandler(Button2& btn);

@@ -5,6 +5,7 @@
 #include <DallasTemperature.h>
 #include "..\glob.h"
 
+void SensorInit();
 int ReadRoomTemperature();
 
 #endif
