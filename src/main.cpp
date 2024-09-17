@@ -5,7 +5,7 @@
 #include "..\include\dio\dio.h"
 #include "..\include\disp\disp.h"
 #include "..\include\os\os.h"
-#include"..\include\glob.h"
+#include"..\include\config.h"
 #include "..\include\ui\ui.h"
 
 

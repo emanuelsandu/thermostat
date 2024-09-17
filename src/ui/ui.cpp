@@ -58,6 +58,11 @@ void MenuHandling()
 
 }
 
+void UIInit()
+{
+    
+}
+
 void UIMainPage(int setTemp)
 {
     //String DisplayRow1;

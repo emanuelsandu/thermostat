@@ -1,7 +1,7 @@
 #ifndef UI_H
 #define UI_H
 
-#include "..\glob.h"
+#include "..\config.h"
 #include "..\disp\disp.h"
 
 static int initMenu=0;
@@ -22,15 +22,13 @@ struct Menu
     Page Debug;
 };
 
-#define ThermostatMainPageID 0
-#define ThermostatSettingsPageID 1
-#define ThermostatDebugPageID 2
 
 //Page ThermostatPage;
 //Menu ThermostatMenu;
 
 void PageSetup();
 void MenuHandling();
+void UIInit();
 void UIMainPage(int setTemp);
 void UISettingsPage();
 void UIDebugPage();

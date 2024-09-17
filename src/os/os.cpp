@@ -1,92 +1,66 @@
 #include "os/os.h"
 
+
 // Declare a mutex Semaphore Handle which we will use to manage the Serial Port.
 // It will be used to ensure only one Task is accessing this resource at any time.
+#if !defined(xSerialSemaphore)
 SemaphoreHandle_t xSerialSemaphore;
+#endif
+#if !defined(xTaskInit)
 TaskHandle_t xTaskInit;
-TaskHandle_t xTask15ms;
-TaskHandle_t xTask90ms;
-TaskHandle_t xTask990ms;
+#endif
+#if !defined(xTask10ms)
+TaskHandle_t xTask10ms;
+#endif
+#if !defined(xTask100ms)
+TaskHandle_t xTask100ms;
+#endif
+#if !defined(xTask1000ms)
+TaskHandle_t xTask1000ms; 
+#endif
+
 
 int initApp=0;
 
 void createTasks(){
 
-    if ( xSerialSemaphore == NULL )  // Check to confirm that the Serial Semaphore has not already been created.
+
+  if ( xSerialSemaphore == NULL )  // Check to confirm that the Serial Semaphore has not already been created.
   {
     xSerialSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore we will use to manage the Serial Port
     if ( ( xSerialSemaphore ) != NULL )
       xSemaphoreGive( ( xSerialSemaphore ) );  // Make the Serial Port available for use, by "Giving" the Semaphore.
   }
 
-  // Now set up two Tasks to run independently.
+  //TaskCreate( fCallName, stringName, stacksize, ?, prio, Handler)
 
-/*  
-  xTaskCreate(
-    TaskInit
-    ,  "Init"  // A name just for humans
-    ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
-    ,  NULL //Parameters for the task
-    ,  3  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-    ,  &xTaskInit ); //Task Handle
-  */
-  xTaskCreate(
-    Task15ms
-    ,  "15ms"  // A name just for humans
-    ,  128  // This stack size can be checked & adjusted by reading the Stack Highwater
-    ,  NULL //Parameters for the task
-    ,  1  // Priority, with 3 (configMAX_PRIORITIES - 1) being the highest, and 0 being the lowest.
-    ,  &xTask15ms ); //Task Handle
+  xTaskCreate(  Task10ms  ,  "10ms"  ,   128,  NULL,  1,  &xTask10ms   );
+ 
+  xTaskCreate(  Task100ms ,  "100ms" ,   128,  NULL,  2,  &xTask100ms  ); 
 
-  xTaskCreate(
-    Task90ms
-    ,  "90ms" // A name just for humans
-    ,  128  // Stack size
-    ,  NULL //Parameters for the task
-    ,  2  // Priority
-    ,  &xTask90ms ); //Task Handle
-
-  xTaskCreate(
-    Task990ms
-    ,  "990ms" // A name just for humans
-    ,  128  // Stack size
-    ,  NULL //Parameters for the task
-    ,  0  // Priority
-    ,  &xTask990ms ); //Task Handle
+  xTaskCreate(  Task1000ms,  "1000ms",   128,  NULL,  0,  &xTask1000ms ); 
+    
 
   // Now the Task scheduler, which takes over control of scheduling individual Tasks, is automatically started.
 }
 
-void TaskInit( void *pvParameters __attribute__((unused)) )  // This is a Task.
-{
-  if(initMenu==0){
-    for (;;) // A Task shall never return or exit.
-    {
-      DisplaySetup();
-
-      vTaskDelay(10);  // one tick delay (15ms) in between reads for stability
-    }
-    //vTaskSuspend(NULL);
-
-  }
-}
-
-void Task15ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task10ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
   for (;;) // A Task shall never return or exit.
   {
     if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {
-      //Serial.println(buttonState);
+      Serial.println("10mstask");
 
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
+    //vTaskDelay(Task10msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(1);
   }
 }
 
-void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void Task100ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
   for (;;)
@@ -94,15 +68,18 @@ void Task90ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
     if ( xSemaphoreTake( xSerialSemaphore, ( TickType_t ) configBlockResTickPeriod ) == pdTRUE )
     {      
       MenuHandling();
+      Serial.println("100mstask");
 
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(6);  // one tick delay (15ms) in between reads for stability
+    //vTaskDelay(Task100msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(7);
   }
 }
 
-void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+
+void Task1000ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
   for (;;)
@@ -114,14 +91,15 @@ void Task990ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
           PageSetup();
           NRF24Setup();
           DisplaySetup();
-          delay(1000);
-          
+
+          Serial.print("Task990\n");
           initApp=1;
       }
-      
+
       xSemaphoreGive( xSerialSemaphore ); // Now free or "Give" the Serial Port for others.
     }
 
-    vTaskDelay(66);  // one tick delay (15ms) in between reads for stability
+    //vTaskDelay(Task1000msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+    vTaskDelay(67);
   }
 }

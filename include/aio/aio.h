@@ -3,8 +3,9 @@
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include "..\glob.h"
+#include "..\config.h"
 
+int SensorInit();
 int ReadRoomTemperature();
 
 #endif

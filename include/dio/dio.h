@@ -2,11 +2,10 @@
 #define DIO_H
 
 #include <Button2.h>
-#include "..\glob.h"
-
-#define ButtonLongPressTime_ms 3000
+#include "..\config.h"
 
 
+void ButtonInit();
 void ButtonSetup();
 void ButtonCheck(Button2& btn);
 void ButtonHandler(Button2& btn);

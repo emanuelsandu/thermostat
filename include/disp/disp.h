@@ -2,12 +2,9 @@
 #define DISP_H
 
 #include <LiquidCrystal_I2C.h>
-#include "..\glob.h"
+#include "..\config.h"
 
-#define FirstRow 0
-#define SecondRow 1
-#define CursorStart0 0
-
+void DisplayInit();
 void DisplaySetup();
 void DisplayClear();
 void DisplayWrite(int setTemp);
