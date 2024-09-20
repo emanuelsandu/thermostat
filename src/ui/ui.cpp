@@ -1,33 +1,14 @@
-#include "..\..\include\ui\ui.h"
-#include "..\..\include\dio\dio.h"
+#include "..\..\include\glob.h"
 
 int temp=0;
 int initUI=0;
 
 void PageSetup()
 {
-    /*
-    
-    
-    ThermostatMenu.CurrentPage.ID=0;
-    
-    ThermostatMenu.Main.ID=0;
-    //ThermostatMenu.Main.Name="MainPage";
-    
-    ThermostatMenu.Settings.ID=1;
-    //ThermostatMenu.Settings.Name="Settings";
-
-    ThermostatMenu.Debug.ID=99;
-    //ThermostatMenu.Debug.Name="Debug";
-
-    ThermostatPage.ID=0;
-    */
 }
 
 void MenuHandling()
 {
-
-
 
     if(ReadButtonPlus() || initUI==0)
     {
