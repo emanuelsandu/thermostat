@@ -12,6 +12,6 @@
 #define COM_ROLE_TX 0
 #define COM_ROLE_RX 1
 
-int iComInit();
+short ComInit();
 
 #endif

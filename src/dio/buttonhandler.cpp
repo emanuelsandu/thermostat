@@ -1,97 +1,110 @@
 #include"..\include\glob.h"
 
-void ButtonCheck(Button2& btn)
+void DioReadButtons()
 {
-  //ButtonPlus.loop();
-  //ButtonMinus.loop();
+  ButtonPlus.loop();
+  ButtonMinus.loop();
 }
 
-void ButtonHandler(Button2& btn)
+void DioButtonHandler(Button2& btn)
+{ 
+  if(btn==ButtonPlus){
+    Dio_ButtonPlus=DioButtonHandlerReadClickType(btn);
+  }
+  if(btn==ButtonMinus){
+    Dio_ButtonMinus=DioButtonHandlerReadClickType(btn);
+  }
+  
+}
+
+byte DioButtonHandlerReadClickType(Button2& btn)
 {
-  switch(btn.getType())
-  {
+    byte result;
+    result=Dio_ButtonClear;
+    switch(btn.getType())
+    {
         case single_click:
+            result=Dio_ButtonSingleClick;
             break;
         case double_click:
-            //Serial.print("double ");
+            result=Dio_ButtonDoubleClick;
+            break;
+        case triple_click:
+            result=Dio_ButtonTripleClick;
             break;
         case long_click:
-            //Serial.print("long");
+            result=Dio_ButtonLongClick;
             break;
         case empty:
-            return;
-  }
-}
-
-void ButtonHandlerNext(Button2& btn)
-{
-/*   ButtonCounterPressedTime+=1;
-  if(ButtonCounterPressedTime==2)
-  {
-    ElapsedTimeCounter=millis();
-  } */
-}
-
-void ButtonHandlerNextPressed(Button2& btn)
-{
-/*   ButtonCounterPressedTime--;
-  if (ButtonCounterPressedTime == 0) {
-    if (ElapsedTimeCounter != 0) {
-      Serial.print("Pressed for: ");
-      Serial.print(millis() - ElapsedTimeCounter);
-      Serial.println("ms"); 
+            result=Dio_ButtonError;
+            break;
+        default:
+            result=Dio_ButtonClear;
+            break;
     }
-    ElapsedTimeCounter = 0;
-  } */
+    return result;
 }
 
-int ReadButtonPlus()
+void DioButtonHandlerNext(Button2& btn)
+{
+    ButtonCounterPressedTime+=1;
+    if(ButtonCounterPressedTime==2)
+    {
+      ElapsedTimeCounter=millis();
+      Dio_ButtonSoftGP=Dio_ButtonOkClick;
+    } 
+}
+
+void DioButtonHandlerNextPressed(Button2& btn)
+{
+    ButtonCounterPressedTime--;
+    if (ButtonCounterPressedTime == 0) {
+      if (ElapsedTimeCounter != 0) { 
+      }
+      ElapsedTimeCounter = 0;
+    } 
+}
+
+
+#if (__DEBUG_MODE__==1)
+
+byte DioReadButtonPlus()
 {
   
-  ButtonPlus.loop();
   // make the pushbutton's pin an input:
-  pinMode(ButtonPlusPin, INPUT);
+  pinMode(DioButtonPlusPin, INPUT);
   
-  int buttonState=0;
+  byte buttonState=0;
 
-    buttonState = digitalRead(ButtonPlusPin);
+    buttonState = digitalRead(DioButtonPlusPin);
     return buttonState;
 }
 
-int ReadButtonMinus()
+byte DioReadButtonMinus()
 {
   
   // make the pushbutton's pin an input:
-  pinMode(ButtonMinusPin, INPUT);
+  pinMode(DioButtonMinusPin, INPUT);
   
-  int buttonState=0;
+  byte buttonState=0;
 
-    buttonState = digitalRead(ButtonMinusPin);
+    buttonState = digitalRead(DioButtonMinusPin);
 
   return buttonState;
 }
 
-int ReadButtonOk()
+byte DioReadButtonOk()
 {
-  
-  // make the pushbutton's pin an input:
-  pinMode(ButtonOkPin, INPUT);
-  
-  int buttonState=0;
-
-  //  buttonState = digitalRead(ButtonOkPin);
+  byte buttonState=0;
 
   return buttonState;
 }
 
-int ReadButtonCancel()
+byte DioReadButtonCancel()
 {
-  // make the pushbutton's pin an input:
-  pinMode(ButtonCancelPin, INPUT);
-  
-  int buttonState=0;
-
-  //  buttonState = digitalRead(ButtonCancelPin);
+  byte buttonState=0;
 
   return buttonState;
 }
+
+#endif

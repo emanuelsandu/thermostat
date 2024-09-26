@@ -4,11 +4,11 @@
 #include "..\glob.h"
 #include "..\disp\disp.h"
 
-static int initMenu=0;
+//static short initMenu=0;
 
-struct Page
+/* struct Page
 {
-    int ID;
+    short ID;
     char* Name;
     //char* DataRow1;
     //char* DataRow2;
@@ -20,7 +20,7 @@ struct Menu
     Page Main;
     Page Settings;
     Page Debug;
-};
+}; */
 
 #define ThermostatMainPageID 0
 #define ThermostatSettingsPageID 1
@@ -28,11 +28,17 @@ struct Menu
 
 //Page ThermostatPage;
 //Menu ThermostatMenu;
+
+
+extern float UI_SetRoomTemperature;
+
 void UIInit();
 void PageSetup();
 void MenuHandling();
-void UIMainPage(int setTemp);
+void UIMainPage();
 void UISettingsPage();
 void UIDebugPage();
+byte UIIncreaseTemp(byte tempData);
+byte UIDecreaseTemp(byte tempData);
 
 #endif

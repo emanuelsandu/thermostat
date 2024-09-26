@@ -2,11 +2,15 @@
 #ifndef OS_H
 #define OS_H
 
+
+/*      INCLUDES     */
 #include <Arduino.h>
 #include <Arduino_FreeRTOS.h>
 #include <semphr.h>  // add the FreeRTOS functions for Semaphores (or Flags).
 #include "..\glob.h"
 
+
+/*      DEFINES     */
 #define __OS_STATUS_OK__                        0
 #define __OS_STATUS_INIT_FAIL__                 1
 
@@ -27,40 +31,35 @@
 #define Task100msPeriod     100
 #define Task1000msPeriod    1000
 
-extern int initApp;
 
-extern SemaphoreHandle_t xSerialSemaphore;
-extern TaskHandle_t tTaskInit;
-extern TaskHandle_t tTaskOneCycle;
+/*      VARIABLES     */
+extern byte initApp;
+extern byte iOsAppErr;
+
+extern SemaphoreHandle_t xMutex;
+
 extern TaskHandle_t tTask100ms;
 extern TaskHandle_t tTask1s;
-extern TaskHandle_t tComSoftIrq;
-extern TaskHandle_t tComRxTask;
-extern TaskHandle_t tComTxTask;
-extern TaskHandle_t tComStatus;
-extern TaskHandle_t tDbgIn;
+extern TaskHandle_t tSoftIrq;
 
-extern SemaphoreHandle_t xRadioIrqSemaphore;
-extern SemaphoreHandle_t xRadioMutex;
-extern SemaphoreHandle_t xConsoleMutex;
+// extern SemaphoreHandle_t xMutex /*xRadioIrqSemaphore*/;
+//extern SemaphoreHandle_t xMutex /*xRadioMutex*/;
+//extern SemaphoreHandle_t xMutex /*xConsoleMutex*/ ;
 extern QueueHandle_t xPayloadQueue;
 extern QueueHandle_t xStatusQueue;
 
 
+/*      FUNCTIONS     */
 extern void OsInit();
-extern void vTaskInit( void *pvParameters );
-extern void vTaskOneCycle( void *pvParameters );
-extern void vTask100ms( void *pvParameters );
-extern void vTask1s( void *pvParameters );
 
-extern void vSenderTask(void* pvParameters);
-extern void vReceiverTask(void* pvParameters);
-extern void vStatusTask(void* pvParameters);
-extern void vInputTask(void* pvParameters);
-extern void vRadioSoftIrqTask(void* pvParameters);
-extern void setup_radio(void);
-extern void radio_set_role(int newrole);
+extern void OsTask100ms( void *pvParameters );
+extern void OsTask1s( void *pvParameters );
+extern void OsTaskSoftIrq(void* pvParameters);
 
-extern void vOsCreateTasks();
+extern void OsCreateTasks();
+extern byte  OsAddHandlers();
+
+static void irq_handler_com(void);
+static void irq_handler_dio(void);
 
 #endif

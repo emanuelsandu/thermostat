@@ -2,7 +2,7 @@
 
 LiquidCrystal_I2C Display16x2=LiquidCrystal_I2C(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
 
-int iDispInit(){
+short DispInit(){
 
     Display16x2.init();
     Display16x2.backlight();
@@ -29,14 +29,15 @@ void DisplayClear()
     Display16x2.clear();
 }
 
-void DisplayWrite(int setTemp)
+void DisplayWriteMainPage(float setTemp)
 {
     Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("Set: ");
-    Display16x2.print(setTemp);
+    //Display16x2.print(String(setTemp.intPart,DEC) + "." + String(setTemp.fractPart,DEC));
+    Display16x2.print(String(UI_SetRoomTemperature,1));
     Display16x2.setCursor(CursorStart0,SecondRow);
     Display16x2.print("Room: ");
-    Display16x2.print(ReadRoomTemperature());
+    Display16x2.print(String(Aio_ActualRoomTemperature,1) );
 }
 
 void DisplayMessage(const char *cDispMsgBuf){
@@ -44,7 +45,7 @@ void DisplayMessage(const char *cDispMsgBuf){
     message+=cDispMsgBuf;
     DisplayClear();
     Display16x2.setCursor(CursorStart0,FirstRow);
-    int max_len;
+    short max_len;
     max_len=message.length();
     if(max_len>32) max_len=32;
 

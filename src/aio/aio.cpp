@@ -2,48 +2,65 @@
 
 
 // GPIO where the DS18B20 is connected to
-const int oneWireBus = TemperatureSensorPin;     
+const short AioOneWireBusTempSensor = AioTemperatureSensorPin;     
 
-// Setup a oneWire instance to communicate with any OneWire devices
-OneWire oneWire(oneWireBus);
+// Setup a oneWire instance to communicate with any AioOneWireTempSensor devices
+OneWire AioOneWireTempSensor(AioOneWireBusTempSensor);
 
-int iRoomTemperatureOld=0;
+short  RoomTemperatureOld=0;
+float  Aio_ActualRoomTemperature;
+bool Aio_ActualRoomTemperatureChanged;
 
-// Pass our oneWire reference to Dallas Temperature sensor
-DallasTemperature TempSensor = DallasTemperature(&oneWire);
-int iAioInit(){
-    DisplayMessageRow2("AIO_INIT_OK");
+
+// Pass our AioOneWireTempSensor reference to Dallas Temperature sensor
+DallasTemperature AioTempSensor = DallasTemperature(&AioOneWireTempSensor);
+
+
+byte AioInit(){
     return 0;
 }
 
-int ReadRoomTemperature()
+byte AioDiag()
+{   
+    byte _err_aio;
+    _err_aio=__AIO_OK__;
+    if(short(Aio_ActualRoomTemperature)<Aio_SensorDisconnectedThreshold)
+        _err_aio=__AIO_SENSOR_DISCONNECTED__;
+    return _err_aio;
+}
+
+void AioReadSensors()
 {
-    int roomTemp;
-    TempSensor.requestTemperatures();
-    roomTemp = (int)(TempSensor.getTempCByIndex(0));
-    return roomTemp;
+    ReadRoomTemperature();
+    Aio_ActualRoomTemperatureChanged=RoomTemperatureChanged(short(Aio_ActualRoomTemperature));
+}
+
+void ReadRoomTemperature()
+{
+    AioTempSensor.requestTemperatures();
+    Aio_ActualRoomTemperature = AioTempSensor.getTempCByIndex(0);
 }
 
 
-bool bRoomTemperatureChanged()
+bool RoomTemperatureChanged(short newRoomTemp)
 {
     bool result=false;
-    if(ReadRoomTemperature()!=iRoomTemperatureOld) 
+    if(newRoomTemp!=RoomTemperatureOld) 
     {
         result=true;
     }
-    iRoomTemperatureOld = ReadRoomTemperature();
+    RoomTemperatureOld = newRoomTemp;
     return result;
 }
 /* 
 class cTempSensor{
-    DallasTemperature TempSensor=DallasTemperature(&oneWire);
+    DallasTemperature AioTempSensor=DallasTemperature(&AioOneWireTempSensor);
 
-    int ReadRoomTemperature()
+    void ReadRoomTemperature()
     {
-        int roomTemp;
-        TempSensor.requestTemperatures();
-        roomTemp=(int)(TempSensor.getTempCByIndex(0));
+        short roomTemp;
+        AioTempSensor.requestTemperatures();
+        roomTemp=(int)(AioTempSensor.getTempCByIndex(0));
         return roomTemp;
     }
 };

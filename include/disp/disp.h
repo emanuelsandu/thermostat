@@ -8,10 +8,10 @@
 #define SecondRow 1
 #define CursorStart0 0
 
-int iDispInit();
+short DispInit();
 void DisplaySetup();
 void DisplayClear();
-void DisplayWrite(int setTemp);
+void DisplayWriteMainPage(float setTemp);
 void DisplayMessage(const char *cDispMsgBuf);
 void DisplayMessageRow2(const char *cDispMsgBuf);
 

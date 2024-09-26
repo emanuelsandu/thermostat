@@ -1,21 +1,21 @@
 #include"..\include\glob.h"
 
-void ButtonSetup()
+void DioButtonSetup()
 {
-  ButtonPlus.begin(ButtonPlusPin);
-  ButtonMinus.begin(ButtonMinusPin);
+  ButtonPlus.begin(DioButtonPlusPin);
+  ButtonMinus.begin(DioButtonMinusPin);
 
-  ButtonPlus.setClickHandler(ButtonHandler);
-  ButtonPlus.setDoubleClickHandler(ButtonHandler);
-  ButtonPlus.setLongClickDetectedHandler(ButtonHandler);
-  //ButtonPlus.setPressedHandler(ButtonHandlerNext);
-  //ButtonPlus.setReleasedHandler(ButtonHandlerNextPressed);
+  ButtonPlus.setClickHandler(DioButtonHandler);
+  ButtonPlus.setDoubleClickHandler(DioButtonHandler);
+  ButtonPlus.setLongClickDetectedHandler(DioButtonHandler);
+  ButtonPlus.setPressedHandler(DioButtonHandlerNext);
+  ButtonPlus.setReleasedHandler(DioButtonHandlerNextPressed);
   ButtonPlus.setLongClickTime(ButtonLongPressTime_ms);
 
-  ButtonMinus.setClickHandler(ButtonHandler);
-  ButtonMinus.setDoubleClickHandler(ButtonHandler);
-  ButtonMinus.setLongClickDetectedHandler(ButtonHandler);
-  //ButtonMinus.setPressedHandler(ButtonHandlerNext);
-  //ButtonMinus.setReleasedHandler(ButtonHandlerNextPressed);
+  ButtonMinus.setClickHandler(DioButtonHandler);
+  ButtonMinus.setDoubleClickHandler(DioButtonHandler);
+  ButtonMinus.setLongClickDetectedHandler(DioButtonHandler);
+  ButtonMinus.setPressedHandler(DioButtonHandlerNext);
+  ButtonMinus.setReleasedHandler(DioButtonHandlerNextPressed);
   ButtonMinus.setLongClickTime(ButtonLongPressTime_ms);
 }
