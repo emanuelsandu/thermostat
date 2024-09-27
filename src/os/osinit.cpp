@@ -1,5 +1,8 @@
 #include "..\include\glob.h"
 
+static void irq_handler_com(void);
+static void irq_handler_dio(void);
+
 void OsInit(){
 
     iOsAppErr&=DispInit();
@@ -45,8 +48,8 @@ byte OsAddHandlers(){
         //DisplayMessage( "INITIALIZING STSQU MUTX"); 
 
     attachInterrupt(0,irq_handler_com,FALLING);
-    attachInterrupt(DioReadButtonPlus(),irq_handler_dio,FALLING);
-    attachInterrupt(DioReadButtonMinus(),irq_handler_dio,FALLING);
+    attachInterrupt(0,irq_handler_dio,RISING);
+    attachInterrupt(0,irq_handler_dio,FALLING);
 
     return result;
 }
@@ -63,5 +66,8 @@ static void irq_handler_dio(void)
     static BaseType_t xHigherPriorityTaskWoken;
     /* Give the semaphore */
     //xSemaphoreGiveFromISR(xMutex /*xRadioIrqSemaphore*/, &xHigherPriorityTaskWoken);
-    DioReadButtons();
+    //DioReadButtons();
+    //xSemaphoreGiveFromISR(xMutex, &xHigherPriorityTaskWoken);
 }
+
+    

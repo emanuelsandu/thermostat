@@ -38,6 +38,7 @@ extern byte iOsAppErr;
 
 extern SemaphoreHandle_t xMutex;
 
+
 extern TaskHandle_t tTask100ms;
 extern TaskHandle_t tTask1s;
 extern TaskHandle_t tSoftIrq;
@@ -59,7 +60,7 @@ extern void OsTaskSoftIrq(void* pvParameters);
 extern void OsCreateTasks();
 extern byte  OsAddHandlers();
 
-static void irq_handler_com(void);
-static void irq_handler_dio(void);
+extern void irq_handler_com(void);
+extern void irq_handler_dio(void);
 
 #endif

@@ -9,14 +9,16 @@ void OsTaskSoftIrq(void*)
     // Infinite loop 
     while(1)
     {
-       
+        
+        //xSemaphoreTake(xMutex, portMAX_DELAY);
         if(__DEBUG_MODE__){
         if(stateDebugLedOld==HIGH) stateDebugLed=LOW;
         else stateDebugLed=HIGH;
             digitalWrite(OsDebugTaskPin1, stateDebugLed);   // turn the LED on (HIGH is the voltage level)
             stateDebugLedOld=stateDebugLed;
-            vTaskDelay( 500 / portTICK_PERIOD_MS ); // wait for one second
+            //vTaskDelay( 500 / portTICK_PERIOD_MS ); // wait for one second
         }
+        
     
     }
 }

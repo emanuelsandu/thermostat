@@ -2,6 +2,8 @@
 
 void DioReadButtons()
 {
+  //if(Serial.available())
+  //  Serial.println("read buttons");
   ButtonPlus.loop();
   ButtonMinus.loop();
 }

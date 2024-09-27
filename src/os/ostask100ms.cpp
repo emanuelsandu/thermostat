@@ -18,7 +18,6 @@ void OsTask100ms( void *pvParameters __attribute__((unused)) )  // This is a Tas
             vTaskDelay( Task100msPeriod / portTICK_PERIOD_MS ); // wait for one second
         }
         
-        DioReadButtons();
       //Dio_ButtonPlus=DioReadButtonPlus();
 
 

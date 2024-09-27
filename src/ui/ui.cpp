@@ -11,8 +11,13 @@ void PageSetup()
 void MenuHandling()
 {
     short tempdata;
+    tempdata=0;
 
-    if(Dio_ButtonPlus || Dio_ButtonMinus || initUI==0)
+    if(Dio_ButtonPlus!=Dio_ButtonError && Dio_ButtonPlus!=Dio_ButtonClear  
+        || 
+        Dio_ButtonMinus!=Dio_ButtonError && Dio_ButtonMinus!=Dio_ButtonClear   
+        || 
+        initUI==0)
     {
 
         tempdata=UIIncreaseTemp(Dio_ButtonPlus);

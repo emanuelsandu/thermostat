@@ -7,9 +7,13 @@ void setup() {
 
     OsCreateTasks();
 
+    /* Start the scheduler. */
+    vTaskStartScheduler();
+
 }
 
 void loop()
 {
   // Empty. Things are done in Tasks.
+        DioReadButtons();
 }
