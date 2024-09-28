@@ -29,7 +29,7 @@ void DisplayClear()
     Display16x2.clear();
 }
 
-void DisplayWriteMainPage(float setTemp)
+void DisplayWriteMainPage()
 {
     Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("Set: ");

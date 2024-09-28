@@ -18,7 +18,7 @@ void OsTask1s( void *pvParameters __attribute__((unused)) )  // This is a Task.
         vTaskDelay( Task1000msPeriod / portTICK_PERIOD_MS ); // wait for one second
     }
    
-    if(Counter60sFlag>=60)
+    if(Counter60sFlag>=60 )
     {
       Counter60sFlag=0;
       AioReadSensors();

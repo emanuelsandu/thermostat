@@ -1,7 +1,5 @@
 #include"..\include\glob.h"
 
-Button2 ButtonPlus;
-Button2 ButtonMinus;
 
 unsigned long ButtonCounterPressedTime = 0;
 unsigned long ElapsedTimeCounter = 0;
@@ -13,6 +11,8 @@ byte      Dio_ButtonSoftGP;
 
 byte DioInit()
 {
-  DioButtonSetup();
+  //DioButtonSetup();
+  pinMode(DioButtonPlusPin, INPUT);
+  pinMode(DioButtonMinusPin, INPUT);
   return 0;
 }

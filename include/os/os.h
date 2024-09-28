@@ -28,7 +28,7 @@
 #define configBlockResTickPeriod 1
 
 #define Task10msPeriod      10
-#define Task100msPeriod     100
+#define Task50msPeriod     50
 #define Task1000msPeriod    1000
 
 
@@ -39,7 +39,7 @@ extern byte iOsAppErr;
 extern SemaphoreHandle_t xMutex;
 
 
-extern TaskHandle_t tTask100ms;
+extern TaskHandle_t tTask50ms;
 extern TaskHandle_t tTask1s;
 extern TaskHandle_t tSoftIrq;
 
@@ -53,7 +53,9 @@ extern QueueHandle_t xStatusQueue;
 /*      FUNCTIONS     */
 extern void OsInit();
 
-extern void OsTask100ms( void *pvParameters );
+
+extern void OsTask15ms( void *pvParameters );
+extern void OsTask50ms( void *pvParameters );
 extern void OsTask1s( void *pvParameters );
 extern void OsTaskSoftIrq(void* pvParameters);
 

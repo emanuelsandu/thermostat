@@ -1,112 +1,110 @@
-#include"..\include\glob.h"
+#include "..\include\glob.h"
+
+byte ButtonPlusPressedCounter=0;
+byte ButtonPlusReleasedCounter=0;
+byte ButtonPlusState;
+byte ButtonPlusStatePrevious=LOW;
+byte ButtonPlusEvent=Dio_ButtonClear;
+byte ButtonPlusEventPrevious=Dio_ButtonClear;
+
+byte ButtonMinusPressedCounter=0;
+byte ButtonMinusReleasedCounter=0;
+byte ButtonMinusState;
+byte ButtonMinusStatePrevious=LOW;
+byte ButtonMinusEvent=Dio_ButtonClear;
+byte ButtonMinusEventPrevious=Dio_ButtonClear;
 
 void DioReadButtons()
 {
-  //if(Serial.available())
-  //  Serial.println("read buttons");
-  ButtonPlus.loop();
-  ButtonMinus.loop();
 }
 
-void DioButtonHandler(Button2& btn)
-{ 
-  if(btn==ButtonPlus){
-    Dio_ButtonPlus=DioButtonHandlerReadClickType(btn);
+byte DioReadButton(	byte *prevState, 
+						byte *currState, 
+						byte *pressedCounter, 
+						byte *releasedCounter,
+						byte *prevEvent,
+						byte *currEvent)
+{
+  byte result;
+  prevState=currState;
+
+  if(digitalRead(DioButtonPlusPin)==HIGH)
+  {
+    if(prevState==LOW)
+      *currState=RISING;
+    else
+      *currState=HIGH;
+    result=Dio_ButtonClear;
   }
-  if(btn==ButtonMinus){
-    Dio_ButtonMinus=DioButtonHandlerReadClickType(btn);
+  else
+  {
+    if(*prevState==HIGH)
+      *currState=FALLING;
+    else
+      *currState=LOW;
+    result=Dio_ButtonClear;
   }
   
-}
+  if(*currState==HIGH)
+  {
+    *pressedCounter+=1;
+    *releasedCounter=0;
+  }
 
-byte DioButtonHandlerReadClickType(Button2& btn)
-{
-    byte result;
+  if(*currState==LOW)
+  {
+    *pressedCounter=0;
+    *releasedCounter+=1;
+  }
+
+  if(*pressedCounter>=255) *pressedCounter=254;
+  if(*releasedCounter>=255) *releasedCounter=254;
+  
+  if(*currState==FALLING && *pressedCounter>50)
     result=Dio_ButtonClear;
-    switch(btn.getType())
-    {
-        case single_click:
-            result=Dio_ButtonSingleClick;
-            break;
-        case double_click:
-            result=Dio_ButtonDoubleClick;
-            break;
-        case triple_click:
-            result=Dio_ButtonTripleClick;
-            break;
-        case long_click:
-            result=Dio_ButtonLongClick;
-            break;
-        case empty:
-            result=Dio_ButtonError;
-            break;
-        default:
-            result=Dio_ButtonClear;
-            break;
-    }
-    return result;
+  else
+    if(*currState==FALLING && *pressedCounter>20)
+      result=Dio_ButtonLongClick;
+    else
+      if(*currState==FALLING && *pressedCounter>2)
+		  if(*prevEvent==Dio_ButtonSingleClick && *releasedCounter<5)
+			  result=Dio_ButtonDoubleClick;
+		  else
+			  result=Dio_ButtonSingleClick;
+
+	if (*releasedCounter<5)
+		*prevEvent=result;
+	else
+		*prevEvent=Dio_ButtonClear;
+	
+  return result;
 }
-
-void DioButtonHandlerNext(Button2& btn)
-{
-    ButtonCounterPressedTime+=1;
-    if(ButtonCounterPressedTime==2)
-    {
-      ElapsedTimeCounter=millis();
-      Dio_ButtonSoftGP=Dio_ButtonOkClick;
-    } 
-}
-
-void DioButtonHandlerNextPressed(Button2& btn)
-{
-    ButtonCounterPressedTime--;
-    if (ButtonCounterPressedTime == 0) {
-      if (ElapsedTimeCounter != 0) { 
-      }
-      ElapsedTimeCounter = 0;
-    } 
-}
-
-
-#if (__DEBUG_MODE__==1)
 
 byte DioReadButtonPlus()
 {
-  
-  // make the pushbutton's pin an input:
-  pinMode(DioButtonPlusPin, INPUT);
-  
-  byte buttonState=0;
-
-    buttonState = digitalRead(DioButtonPlusPin);
-    return buttonState;
+  byte result;
+  result=DioReadButton(&ButtonPlusStatePrevious,&ButtonPlusState,
+                        &ButtonPlusPressedCounter,&ButtonPlusReleasedCounter,
+                        &ButtonPlusEventPrevious,&ButtonPlusEvent);
+  return result;
 }
+
 
 byte DioReadButtonMinus()
 {
-  
-  // make the pushbutton's pin an input:
-  pinMode(DioButtonMinusPin, INPUT);
-  
-  byte buttonState=0;
-
-    buttonState = digitalRead(DioButtonMinusPin);
-
-  return buttonState;
+  byte result;
+  result=DioReadButton(&ButtonMinusStatePrevious,&ButtonMinusState,
+                        &ButtonMinusPressedCounter,&ButtonMinusReleasedCounter,
+                        &ButtonMinusEventPrevious,&ButtonMinusEvent);
+  return result;
 }
 
 byte DioReadButtonOk()
 {
-  byte buttonState=0;
-
-  return buttonState;
+    if(DioReadButtonPlus()==Dio_ButtonLongClick && DioReadButtonMinus()==Dio_ButtonLongClick )
+      DisplayMessage("GPSoftBtn PRESSED");
 }
 
 byte DioReadButtonCancel()
 {
-  byte buttonState=0;
-
-  return buttonState;
 }
-
-#endif

@@ -2,7 +2,7 @@
 
 
 
-void OsTask100ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+void OsTask50ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
 {
 
     byte stateDebugLed=(byte)HIGH;
@@ -15,13 +15,14 @@ void OsTask100ms( void *pvParameters __attribute__((unused)) )  // This is a Tas
           else stateDebugLed=HIGH;
             digitalWrite(OsDebugTaskPin3, stateDebugLed);   // turn the LED on (HIGH is the voltage level)
             stateDebugLedOld=stateDebugLed;
-            vTaskDelay( Task100msPeriod / portTICK_PERIOD_MS ); // wait for one second
         }
-        
-      //Dio_ButtonPlus=DioReadButtonPlus();
+      DioReadButtons();
+      
+      UI_SetRoomTemperature+=(float)DioReadButtonPlus();
+      UI_SetRoomTemperature-=(float)DioReadButtonMinus();
 
-
-      //vTaskDelay(Task100msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+      //vTaskDelay(Task50msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
+      vTaskDelay(Task50msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
     }
 } 
 

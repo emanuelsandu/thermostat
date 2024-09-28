@@ -11,7 +11,7 @@
 short DispInit();
 void DisplaySetup();
 void DisplayClear();
-void DisplayWriteMainPage(float setTemp);
+void DisplayWriteMainPage();
 void DisplayMessage(const char *cDispMsgBuf);
 void DisplayMessageRow2(const char *cDispMsgBuf);
 

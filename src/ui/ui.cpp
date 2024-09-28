@@ -10,18 +10,14 @@ void PageSetup()
 
 void MenuHandling()
 {
-    short tempdata;
-    tempdata=0;
-
+/* 
     if(Dio_ButtonPlus!=Dio_ButtonError && Dio_ButtonPlus!=Dio_ButtonClear  
         || 
         Dio_ButtonMinus!=Dio_ButtonError && Dio_ButtonMinus!=Dio_ButtonClear   
         || 
-        initUI==0)
+        initUI==0) */
     {
 
-        tempdata=UIIncreaseTemp(Dio_ButtonPlus);
-        tempdata=UIDecreaseTemp(Dio_ButtonMinus);
 
         switch (0 )//ThermostatPage.ID)
         {
@@ -42,6 +38,7 @@ void MenuHandling()
         }
 
     }
+
     if(initUI==0) initUI=1;
 
 
@@ -62,10 +59,8 @@ byte UIIncreaseTemp(byte tempData)
             UI_SetRoomTemperature+=3;
             break;
         case Dio_ButtonError:
-            UI_SetRoomTemperature=UI_SetRoomTemperature;
             break;
         default:
-            UI_SetRoomTemperature=UI_SetRoomTemperature;
             break;
 
     }
@@ -88,10 +83,8 @@ byte UIDecreaseTemp(byte tempData)
             UI_SetRoomTemperature-=3;
             break;
         case Dio_ButtonError:
-            UI_SetRoomTemperature=UI_SetRoomTemperature;
             break;
         default:
-            UI_SetRoomTemperature=UI_SetRoomTemperature;
             break;
 
     }
@@ -101,12 +94,7 @@ byte UIDecreaseTemp(byte tempData)
 
 void UIMainPage()
 {
-    //String DisplayRow1;
-    //char* DisplayRow2;
-
-    //DisplayRow1="Set: ";
-    //DisplayRow2="Room: ";
-    DisplayWriteMainPage(UI_SetRoomTemperature);
+    DisplayWriteMainPage();
 }
 
 void UISettingsPage()

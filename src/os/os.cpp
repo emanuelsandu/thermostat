@@ -10,7 +10,8 @@ SemaphoreHandle_t xMutex /*xSerialSemaphore*/;
 QueueHandle_t xPayloadQueue;
 QueueHandle_t xStatusQueue;
 
-TaskHandle_t tTask100ms;
+TaskHandle_t tTask15ms;
+TaskHandle_t tTask50ms;
 TaskHandle_t tTask1s;
 TaskHandle_t tSoftIrq;
 
@@ -24,8 +25,9 @@ void OsCreateTasks(){
 
     //DisplayMessage("OS STARTED"); 
     
+    //xTaskCreate(    OsTask15ms,     "15ms",      92, NULL, tskIDLE_PRIORITY + 3,   &tTask15ms );
     
-    xTaskCreate(    OsTask100ms,     "100ms",      128, NULL, tskIDLE_PRIORITY + 1,   &tTask100ms );
+    xTaskCreate(    OsTask50ms,     "100ms",      128, NULL, tskIDLE_PRIORITY + 1,   &tTask50ms );
                      
     xTaskCreate(    OsTask1s,        "1s",         128, NULL, tskIDLE_PRIORITY + 2,   &tTask1s ); 
                       
@@ -33,3 +35,13 @@ void OsCreateTasks(){
 
   // Now the Task scheduler, which takes over control of scheduling individual Tasks, is automatically started.
 }
+void OsTask15ms( void *pvParameters __attribute__((unused)) )  // This is a Task.
+{
+    
+    while(1)
+    {
+      //if(DioReadButtonPlus())
+      //  Dio_ButtonPlus=DioReadButtonPlus();
+      vTaskDelay(1);  // one tick delay (15ms) in between reads for stability
+    }
+} 
