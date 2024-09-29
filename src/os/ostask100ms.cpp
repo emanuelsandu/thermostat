@@ -20,6 +20,8 @@ void OsTask50ms( void *pvParameters __attribute__((unused)) )  // This is a Task
 
       UIAlterRoomTemperature();
 
+      UIMenuHandling();
+
       //vTaskDelay(Task50msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
       vTaskDelay(Task50msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
     }

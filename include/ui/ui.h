@@ -31,6 +31,7 @@ struct Menu
 
 
 extern float UI_SetRoomTemperature;
+extern float UI_SetRoomTemperaturePrevious;
 
 void UIInit();
 void PageSetup();
@@ -39,5 +40,7 @@ void UIMainPage();
 void UISettingsPage();
 void UIDebugPage();
 void UIAlterRoomTemperature();
+byte UIUpdateDisplayEvent();
+void UIUpdateDisplay();
 
 #endif

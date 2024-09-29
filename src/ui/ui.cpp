@@ -5,6 +5,7 @@
 #define UI_DebugPage 2
 
 float UI_SetRoomTemperature;
+float UI_SetRoomTemperaturePrevious;
 short initUI=0;
 
 byte UIActivePage=UI_MainPage;
@@ -15,8 +16,47 @@ void PageSetup()
     UI_SetRoomTemperature=21.5;
 }
 
+byte UIUpdateDisplayEvent()
+{
+    byte result;
+    if(Dio_ButtonPlus!=Dio_ButtonClear || Dio_ButtonPlus!= Dio_ButtonError ||
+       Dio_ButtonMinus!=Dio_ButtonClear || Dio_ButtonMinus!= Dio_ButtonError || 
+       Dio_ButtonSoftGP!=Dio_ButtonClear || Dio_ButtonSoftGP!= Dio_ButtonError || 
+       UI_SetRoomTemperature!=UI_SetRoomTemperaturePrevious)
+       result=1;
+    else
+        result=0;
+    return result;
+}
+
+void UIUpdateDisplay()
+{
+    
+        switch (UIActivePage)//ThermostatPage.ID)
+        {
+            case ThermostatMainPageID://ThermostatMenu.Main.ID:
+                DisplayClear();
+                UIMainPage();
+                break;
+            case ThermostatSettingsPageID://ThermostatMenu.Settings.ID:
+                DisplayClear();
+                UISettingsPage();
+                break;
+            case ThermostatDebugPageID:
+                DisplayClear();
+                UIDebugPage();
+                break;
+            default:
+                DisplayClear();
+                UIMainPage();
+                break;
+        }
+}
+
 void UIMenuHandling()
 {
+    UIActivePagePrevious=UIActivePage;
+
     if(Dio_ButtonSoftGP==Dio_ButtonOkClick)
     {
         UIActivePage+=1;
@@ -25,6 +65,7 @@ void UIMenuHandling()
     if(UIActivePage>ThermostatDebugPageID || UIActivePage<ThermostatMainPageID)
         UIActivePage=ThermostatMainPageID;
 
+    if(UIActivePagePrevious!=UIActivePage  )
         switch (UIActivePage)//ThermostatPage.ID)
         {
             case ThermostatMainPageID://ThermostatMenu.Main.ID:
@@ -51,6 +92,8 @@ void UIMenuHandling()
 void UIAlterRoomTemperature()
 {
     float alterValue;
+
+    UI_SetRoomTemperaturePrevious=UI_SetRoomTemperature;
 
     if(Dio_ButtonPlus==Dio_ButtonSingleClick || Dio_ButtonMinus==Dio_ButtonSingleClick)
         alterValue=0.5;
