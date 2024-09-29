@@ -17,9 +17,8 @@ void OsTask50ms( void *pvParameters __attribute__((unused)) )  // This is a Task
             stateDebugLedOld=stateDebugLed;
         }
       DioReadButtons();
-      
-      UI_SetRoomTemperature+=(float)DioReadButtonPlus();
-      UI_SetRoomTemperature-=(float)DioReadButtonMinus();
+
+      UIAlterRoomTemperature();
 
       //vTaskDelay(Task50msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
       vTaskDelay(Task50msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability

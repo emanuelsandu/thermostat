@@ -38,7 +38,6 @@ void MenuHandling();
 void UIMainPage();
 void UISettingsPage();
 void UIDebugPage();
-byte UIIncreaseTemp(byte tempData);
-byte UIDecreaseTemp(byte tempData);
+void UIAlterRoomTemperature();
 
 #endif

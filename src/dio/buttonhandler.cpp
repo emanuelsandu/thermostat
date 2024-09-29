@@ -1,81 +1,86 @@
 #include "..\include\glob.h"
 
-byte ButtonPlusPressedCounter=0;
-byte ButtonPlusReleasedCounter=0;
-byte ButtonPlusState;
-byte ButtonPlusStatePrevious=LOW;
-byte ButtonPlusEvent=Dio_ButtonClear;
-byte ButtonPlusEventPrevious=Dio_ButtonClear;
 
-byte ButtonMinusPressedCounter=0;
-byte ButtonMinusReleasedCounter=0;
-byte ButtonMinusState;
-byte ButtonMinusStatePrevious=LOW;
-byte ButtonMinusEvent=Dio_ButtonClear;
-byte ButtonMinusEventPrevious=Dio_ButtonClear;
 
 void DioReadButtons()
 {
+  Dio_ButtonPlus=DioButtonPlus.ReadButton();
+  Dio_ButtonMinus=DioButtonMinus.ReadButton();
 }
 
-byte DioReadButton(	byte *prevState, 
-						byte *currState, 
-						byte *pressedCounter, 
-						byte *releasedCounter,
-						byte *prevEvent,
-						byte *currEvent)
+void DioButton::Init(uint8_t btnPin)
+{
+    ButtonPin=btnPin;
+
+    ButtonEvent=Dio_ButtonClear;
+    ButtonEventPrevious=Dio_ButtonClear;
+
+    ButtonPressedCounter=0;
+    ButtonReleasedCounter=0;
+
+    ButtonState=LOW;
+    ButtonStatePrevious=LOW;
+
+    pinMode(ButtonPin,INPUT);
+}
+
+byte DioButton::ReadButton()
 {
   byte result;
-  prevState=currState;
+  ButtonStatePrevious=ButtonState;
 
-  if(digitalRead(DioButtonPlusPin)==HIGH)
+
+  if(digitalRead(ButtonPin)==HIGH)
   {
-    if(prevState==LOW)
-      *currState=RISING;
+    if(ButtonStatePrevious==LOW)
+      ButtonState=RISING;
     else
-      *currState=HIGH;
+      ButtonState=HIGH;
     result=Dio_ButtonClear;
   }
   else
   {
-    if(*prevState==HIGH)
-      *currState=FALLING;
+    if(ButtonStatePrevious==HIGH)
+      ButtonState=FALLING;
     else
-      *currState=LOW;
+      ButtonState=LOW;
     result=Dio_ButtonClear;
   }
   
-  if(*currState==HIGH)
+  if(ButtonState==HIGH)
   {
-    *pressedCounter+=1;
-    *releasedCounter=0;
+    ButtonPressedCounter+=1;
+    ButtonReleasedCounter=0;
   }
 
-  if(*currState==LOW)
+  if(ButtonState==LOW)
   {
-    *pressedCounter=0;
-    *releasedCounter+=1;
+    ButtonPressedCounter=0;
+    ButtonReleasedCounter+=1;
   }
 
-  if(*pressedCounter>=255) *pressedCounter=254;
-  if(*releasedCounter>=255) *releasedCounter=254;
+  if(ButtonPressedCounter>=1024) ButtonPressedCounter=1023;
+  if(ButtonReleasedCounter>=1024) ButtonReleasedCounter=1023;
   
-  if(*currState==FALLING && *pressedCounter>50)
-    result=Dio_ButtonClear;
-  else
-    if(*currState==FALLING && *pressedCounter>20)
-      result=Dio_ButtonLongClick;
+  if( ButtonState==FALLING )
+  {
+    if( ButtonPressedCounter>=ButtonStuckCycles_50ms )
+      result=Dio_ButtonClear;
     else
-      if(*currState==FALLING && *pressedCounter>2)
-		  if(*prevEvent==Dio_ButtonSingleClick && *releasedCounter<5)
-			  result=Dio_ButtonDoubleClick;
-		  else
-			  result=Dio_ButtonSingleClick;
+      if( ButtonPressedCounter>=LongPressCycles_50ms )
+        result=Dio_ButtonLongClick;
+      else
+        if( ButtonPressedCounter>=ShortPressCycles_50ms )
+          if( ButtonEventPrevious==Dio_ButtonSingleClick && ButtonReleasedCounter<=ButtonClearCycles_50ms )
+            result=Dio_ButtonDoubleClick;
+          else
+            result=Dio_ButtonSingleClick;
+  }
 
-	if (*releasedCounter<5)
-		*prevEvent=result;
+	if (ButtonReleasedCounter<ButtonClearCycles_50ms)
+		ButtonEventPrevious=result;
 	else
-		*prevEvent=Dio_ButtonClear;
+		ButtonEventPrevious=Dio_ButtonClear;
 	
   return result;
 }
@@ -83,19 +88,15 @@ byte DioReadButton(	byte *prevState,
 byte DioReadButtonPlus()
 {
   byte result;
-  result=DioReadButton(&ButtonPlusStatePrevious,&ButtonPlusState,
-                        &ButtonPlusPressedCounter,&ButtonPlusReleasedCounter,
-                        &ButtonPlusEventPrevious,&ButtonPlusEvent);
+  result=DioButtonPlus.ReadButton();
   return result;
 }
 
 
 byte DioReadButtonMinus()
 {
-  byte result;
-  result=DioReadButton(&ButtonMinusStatePrevious,&ButtonMinusState,
-                        &ButtonMinusPressedCounter,&ButtonMinusReleasedCounter,
-                        &ButtonMinusEventPrevious,&ButtonMinusEvent);
+  byte result=Dio_ButtonClear;
+  result=DioButtonMinus.ReadButton();
   return result;
 }
 

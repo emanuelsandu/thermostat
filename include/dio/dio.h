@@ -16,15 +16,35 @@
 
 #define Dio_ButtonOkClick   1
 
+#define Task50ms_Cycle1s 20 // 20*50=1000ms
+#define ShortPressCycles_50ms 2
+#define LongPressCycles_50ms 3*Task50ms_Cycle1s
+#define ButtonStuckCycles_50ms 10*Task50ms_Cycle1s
+#define ButtonClearCycles_50ms 2 
 
-extern unsigned long ButtonCounterPressedTime;
-extern unsigned long ElapsedTimeCounter;
 
 extern byte      Dio_ButtonPlus;
 extern byte      Dio_ButtonMinus;
 extern byte      Dio_ButtonCancel;
 extern byte      Dio_ButtonSoftGP;
 
+class DioButton
+{
+  public:
+    unsigned short ButtonPressedCounter;
+    unsigned short ButtonReleasedCounter;
+    byte ButtonState;
+    byte ButtonStatePrevious;
+    byte ButtonEvent;
+    byte ButtonEventPrevious;
+    uint8_t ButtonPin;
+    byte ReadButton();
+    void Init(uint8_t btnPin);
+};
+
+
+extern DioButton DioButtonPlus;
+extern DioButton DioButtonMinus;
 
 byte DioInit();
 void DioButtonSetup();
@@ -34,16 +54,5 @@ byte DioReadButtonMinus();
 byte DioReadButtonOk();
 byte DioReadButtonCancel();
 
-
-extern byte ButtonPlusPressedCounter;
-extern byte ButtonPlusReleasedCounter;
-extern byte ButtonPlusState;
-extern byte ButtonPlusStatePrevious;
-extern byte ButtonPlusEvent;
-extern byte ButtonPlusEventPrevious;
-extern byte ButtonMinusCounter;
-extern byte ButtonMinusState;
-extern byte ButtonMinusStatePrevious;
-extern byte DelayNextRead;
 
 #endif

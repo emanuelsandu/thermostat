@@ -1,7 +1,12 @@
 #include "..\..\include\glob.h"
 
+#define UI_MainPage 0
+#define UI_SettingsPage 1
+#define UI_DebugPage 2
+
 float UI_SetRoomTemperature;
 short initUI=0;
+byte UIActivePage=UI_MainPage;
 
 void PageSetup()
 {
@@ -44,52 +49,18 @@ void MenuHandling()
 
 }
 
-byte UIIncreaseTemp(byte tempData)
+void UIAlterRoomTemperature()
 {
-    byte result;
-    switch(tempData)
-    {
-        case Dio_ButtonSingleClick:
-            UI_SetRoomTemperature+=0.5;
-            break;
-        case Dio_ButtonDoubleClick:
-            UI_SetRoomTemperature+=1;
-            break;
-        case Dio_ButtonTripleClick:
-            UI_SetRoomTemperature+=3;
-            break;
-        case Dio_ButtonError:
-            break;
-        default:
-            break;
+    float alterValue;
 
-    }
-    if(UI_SetRoomTemperature>30) UI_SetRoomTemperature=30;
-    return result;
-}
+    if(Dio_ButtonPlus==Dio_ButtonSingleClick || Dio_ButtonMinus==Dio_ButtonSingleClick)
+        alterValue=0.5;
+    else
+        alterValue=3;
 
-byte UIDecreaseTemp(byte tempData)
-{
-    byte result;
-    switch(tempData)
-    {
-        case Dio_ButtonSingleClick:
-            UI_SetRoomTemperature-=0.5;
-            break;
-        case Dio_ButtonDoubleClick:
-            UI_SetRoomTemperature-=1;
-            break;
-        case Dio_ButtonTripleClick:
-            UI_SetRoomTemperature-=3;
-            break;
-        case Dio_ButtonError:
-            break;
-        default:
-            break;
-
-    }
-    if(UI_SetRoomTemperature<10) UI_SetRoomTemperature=10;
-    return result;
+    if(UIActivePage==UI_MainPage &&
+        Dio_ButtonPlus<Dio_ButtonLongClick && Dio_ButtonMinus<Dio_ButtonLongClick)
+            UI_SetRoomTemperature=UI_SetRoomTemperature+alterValue*((float)(Dio_ButtonPlus-Dio_ButtonMinus));
 }
 
 void UIMainPage()
