@@ -30,6 +30,8 @@ short iComRfInit()
     return result;
 }
 
+
+
 void NRF24Setup() {
 
 
@@ -91,9 +93,14 @@ void NRF24Handler()
     }       
     //DisplayMessage("COM NO CHIP");
  */
+    NRF24Tx(RequestType);
 }
 
 
+void NRF24Tx(byte msg)
+{
+
+}
 
 /**
  * The irq callback function called when the radio hw irq is raised.

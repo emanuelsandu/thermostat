@@ -28,6 +28,8 @@ void OsTask1s( void *pvParameters __attribute__((unused)) )  // This is a Task.
     }
 
     UIUpdateDisplay();
+    UIHeatControl();
+    ComHandler();
     //vTaskDelay(Task1000msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
   }
   

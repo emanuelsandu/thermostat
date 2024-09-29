@@ -11,6 +11,8 @@ short initUI=0;
 byte UIActivePage=UI_MainPage;
 byte UIActivePagePrevious=UI_MainPage;
 
+byte UIRequestHeating=0;
+
 void PageSetup()
 {
     UI_SetRoomTemperature=21.5;
@@ -103,6 +105,26 @@ void UIAlterRoomTemperature()
     if(UIActivePage==UI_MainPage &&
         Dio_ButtonPlus<Dio_ButtonLongClick && Dio_ButtonMinus<Dio_ButtonLongClick)
             UI_SetRoomTemperature=UI_SetRoomTemperature+alterValue*((float)(Dio_ButtonPlus-Dio_ButtonMinus));
+}
+
+void UIHeatControl()
+{
+    if(UI_SetRoomTemperature<=Aio_ActualRoomTemperature-INCREMENT_POINT_FIVE)
+    {
+
+        UIRequestHeating=0;
+        if(UIActivePage==UI_MainPage)
+            DisplayClearHeatingSymbol();
+    }
+    else if(UI_SetRoomTemperature>Aio_ActualRoomTemperature+INCREMENT_POINT_FIVE )
+    {
+        
+        UIRequestHeating=1;
+
+        if(UIActivePage==UI_MainPage)
+            DisplayHeatingSymbol();
+
+    }
 }
 
 void UIMainPage()

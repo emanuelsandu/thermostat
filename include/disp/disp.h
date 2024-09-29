@@ -10,12 +10,17 @@
 
 #define degC char(223)+"C"
 
+
+extern byte DispHeatingSymbolActive;
+
 short DispInit();
 void DisplaySetup();
 void DisplayClear();
 void DisplayWriteMainPage();
 void DisplayMessage(const char *cDispMsgBuf);
 void DisplayMessageRow2(const char *cDispMsgBuf);
+void DisplayHeatingSymbol();
+void DisplayClearHeatingSymbol();
 
 
 #endif

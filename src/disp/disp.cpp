@@ -2,6 +2,18 @@
 
 LiquidCrystal_I2C Display16x2=LiquidCrystal_I2C(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
 
+byte DispHeatingSymbolActive;
+byte RisingDoubleArrowInv[] = {
+  0x1F,
+  0x1B,
+  0x15,
+  0x0E,
+  0x1B,
+  0x15,
+  0x0E,
+  0x1F
+};
+
 short DispInit(){
 
     Display16x2.init();
@@ -10,6 +22,9 @@ short DispInit(){
     Display16x2.noBlink();
     Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("INITIALIZING...");
+
+    DispHeatingSymbolActive=0;
+    Display16x2.createChar(0,RisingDoubleArrowInv);
 
     return 0;
 }
@@ -22,6 +37,7 @@ void DisplaySetup()
     Display16x2.noBlink();
     Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("INITIALIZING...");
+    DispHeatingSymbolActive=0;
 }
 
 void DisplayClear()
@@ -71,3 +87,21 @@ void DisplayMessageRow2(const char *cDispMsgBuf){
     Display16x2.print(cDispMsgBuf);
     
 };
+
+void DisplayHeatingSymbol()
+{
+    Display16x2.setCursor(15,FirstRow);
+    Display16x2.write(0);
+    Display16x2.setCursor(15,SecondRow);
+    Display16x2.print("H");
+    DispHeatingSymbolActive=1;
+}
+
+void DisplayClearHeatingSymbol()
+{
+    Display16x2.setCursor(15,FirstRow);
+    Display16x2.print("");
+    Display16x2.setCursor(15,SecondRow);
+    Display16x2.print("");
+    DispHeatingSymbolActive=0;
+}

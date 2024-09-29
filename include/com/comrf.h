@@ -46,6 +46,7 @@ extern short ComRole;
 short iComRfInit();
 void NRF24Setup();
 void NRF24Handler();
+void NRF24Tx(byte msg);
 
 extern void radio_set_role(short newrole);
 

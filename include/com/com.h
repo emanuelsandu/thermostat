@@ -12,6 +12,12 @@
 #define COM_ROLE_TX 0
 #define COM_ROLE_RX 1
 
+extern byte RequestType;
+
 short ComInit();
+void ComHandler();
+void ComTx();
+void ComRx();
+void ComMessageHandler();
 
 #endif

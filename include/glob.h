@@ -43,7 +43,6 @@
 #define INCREMENT_POINT_FIVE      0.5
 #define INCREMENT_POINT_ONE       0.1
 
-
 struct payload_t
 {
     char type;
