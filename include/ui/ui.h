@@ -34,7 +34,7 @@ extern float UI_SetRoomTemperature;
 
 void UIInit();
 void PageSetup();
-void MenuHandling();
+void UIMenuHandling();
 void UIMainPage();
 void UISettingsPage();
 void UIDebugPage();

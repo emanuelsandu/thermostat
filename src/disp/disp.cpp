@@ -31,13 +31,20 @@ void DisplayClear()
 
 void DisplayWriteMainPage()
 {
+    String alignSpaces=" ";
+
+    if(UI_SetRoomTemperature<10 && Aio_ActualRoomTemperature>10)
+        alignSpaces="  ";
+    else
+        alignSpaces=" ";
+
     Display16x2.setCursor(CursorStart0,FirstRow);
     Display16x2.print("Set: ");
     //Display16x2.print(String(setTemp.intPart,DEC) + "." + String(setTemp.fractPart,DEC));
-    Display16x2.print(String(UI_SetRoomTemperature,1));
+    Display16x2.print(alignSpaces + String(UI_SetRoomTemperature,1) + degC);
     Display16x2.setCursor(CursorStart0,SecondRow);
     Display16x2.print("Room: ");
-    Display16x2.print(String(Aio_ActualRoomTemperature,1) );
+    Display16x2.print(String(Aio_ActualRoomTemperature,1) + degC );
 }
 
 void DisplayMessage(const char *cDispMsgBuf){

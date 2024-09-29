@@ -15,10 +15,11 @@
 #define Dio_ButtonError         255
 
 #define Dio_ButtonOkClick   1
+#define Dio_ButtonDelClick   2
 
 #define Task50ms_Cycle1s 20 // 20*50=1000ms
-#define ShortPressCycles_50ms 2
-#define LongPressCycles_50ms 3*Task50ms_Cycle1s
+#define ShortPressCycles_50ms 1
+#define LongPressCycles_50ms 1*Task50ms_Cycle1s
 #define ButtonStuckCycles_50ms 10*Task50ms_Cycle1s
 #define ButtonClearCycles_50ms 2 
 
@@ -51,7 +52,7 @@ void DioButtonSetup();
 void DioReadButtons();
 byte DioReadButtonPlus();
 byte DioReadButtonMinus();
-byte DioReadButtonOk();
+byte DioReadButtonSoftGP();
 byte DioReadButtonCancel();
 
 

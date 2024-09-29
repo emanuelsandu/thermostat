@@ -6,45 +6,44 @@
 
 float UI_SetRoomTemperature;
 short initUI=0;
+
 byte UIActivePage=UI_MainPage;
+byte UIActivePagePrevious=UI_MainPage;
 
 void PageSetup()
 {
     UI_SetRoomTemperature=21.5;
 }
 
-void MenuHandling()
+void UIMenuHandling()
 {
-/* 
-    if(Dio_ButtonPlus!=Dio_ButtonError && Dio_ButtonPlus!=Dio_ButtonClear  
-        || 
-        Dio_ButtonMinus!=Dio_ButtonError && Dio_ButtonMinus!=Dio_ButtonClear   
-        || 
-        initUI==0) */
+    if(Dio_ButtonSoftGP==Dio_ButtonOkClick)
     {
-
-
-        switch (0 )//ThermostatPage.ID)
-        {
-        case ThermostatMainPageID://ThermostatMenu.Main.ID:
-            DisplayClear();
-            UIMainPage();
-            break;
-        case ThermostatSettingsPageID://ThermostatMenu.Settings.ID:
-            DisplayClear();
-            break;
-        case ThermostatDebugPageID:
-            DisplayClear();
-            break;
-        default:
-            DisplayClear();
-            //DisplayMainPage();
-            break;
-        }
-
+        UIActivePage+=1;
     }
+    
+    if(UIActivePage>ThermostatDebugPageID || UIActivePage<ThermostatMainPageID)
+        UIActivePage=ThermostatMainPageID;
 
-    if(initUI==0) initUI=1;
+        switch (UIActivePage)//ThermostatPage.ID)
+        {
+            case ThermostatMainPageID://ThermostatMenu.Main.ID:
+                DisplayClear();
+                UIMainPage();
+                break;
+            case ThermostatSettingsPageID://ThermostatMenu.Settings.ID:
+                DisplayClear();
+                UISettingsPage();
+                break;
+            case ThermostatDebugPageID:
+                DisplayClear();
+                UIDebugPage();
+                break;
+            default:
+                DisplayClear();
+                UIMainPage();
+                break;
+        }
 
 
 }
@@ -70,10 +69,10 @@ void UIMainPage()
 
 void UISettingsPage()
 {
-
+    DisplayMessage("SETTINGS");
 }
 
 void UIDebugPage()
 {
-
+    DisplayMessage("DEBUG");
 }

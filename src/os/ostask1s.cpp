@@ -27,7 +27,7 @@ void OsTask1s( void *pvParameters __attribute__((unused)) )  // This is a Task.
       Counter60sFlag+=1;
     }
 
-    MenuHandling();
+    UIMenuHandling();
 
     //vTaskDelay(Task1000msPeriod/portTICK_PERIOD_MS);  // one tick delay (15ms) in between reads for stability
   }

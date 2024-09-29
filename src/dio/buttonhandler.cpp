@@ -6,6 +6,7 @@ void DioReadButtons()
 {
   Dio_ButtonPlus=DioButtonPlus.ReadButton();
   Dio_ButtonMinus=DioButtonMinus.ReadButton();
+  Dio_ButtonSoftGP=DioReadButtonSoftGP();
 }
 
 void DioButton::Init(uint8_t btnPin)
@@ -100,10 +101,14 @@ byte DioReadButtonMinus()
   return result;
 }
 
-byte DioReadButtonOk()
+byte DioReadButtonSoftGP()
 {
-    if(DioReadButtonPlus()==Dio_ButtonLongClick && DioReadButtonMinus()==Dio_ButtonLongClick )
-      DisplayMessage("GPSoftBtn PRESSED");
+  byte result=Dio_ButtonClear;
+  if( Dio_ButtonPlus==Dio_ButtonLongClick )
+    result=Dio_ButtonOkClick;  
+  //if( Dio_ButtonMinus==Dio_ButtonLongClick )
+  //  result=Dio_ButtonDelClick;  
+  return result;
 }
 
 byte DioReadButtonCancel()
