@@ -42,6 +42,8 @@
 #define INCREMENT_ONE             1
 #define INCREMENT_POINT_FIVE      0.5
 #define INCREMENT_POINT_ONE       0.1
+#define TEMP_DELTA_HEATING_ON     0.5
+#define TEMP_DELTA_HEATING_OFF    0.3
 
 struct payload_t
 {

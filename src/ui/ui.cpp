@@ -109,14 +109,14 @@ void UIAlterRoomTemperature()
 
 void UIHeatControl()
 {
-    if(UI_SetRoomTemperature<=Aio_ActualRoomTemperature-INCREMENT_POINT_FIVE)
+    if(UI_SetRoomTemperature<=Aio_ActualRoomTemperature-TEMP_DELTA_HEATING_OFF)
     {
 
         UIRequestHeating=0;
         if(UIActivePage==UI_MainPage)
             DisplayClearHeatingSymbol();
     }
-    else if(UI_SetRoomTemperature>Aio_ActualRoomTemperature+INCREMENT_POINT_FIVE )
+    else if(UI_SetRoomTemperature>Aio_ActualRoomTemperature+TEMP_DELTA_HEATING_ON )
     {
         
         UIRequestHeating=1;

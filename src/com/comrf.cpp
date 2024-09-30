@@ -3,28 +3,32 @@
 
 //nRF24L01 communication 2 ways Arduino B
 RF24 NRF24COM=RF24(ComRfCEPin,ComRfCSNPin); // CE, CSN
-short ComRole=COM_ROLE_RX;
+
+byte ComStatus=__COM_STATUS_INIT__;
+short ComRole=COM_ROLE_TX;
 
 short iComRfInit()
 {
-    short result=0;
-    bool tx,fail,rx;
+    short result=__COM_STATUS_GEN_FAIL__;    
     
-    
-    /* NRF24COM.whatHappened(tx,fail,rx);
-    if(NRF24COM.isChipConnected()){
-        //DisplayMessage(VAL_TO_STR(__COM_STATUS_OK__));
-        result=__COM_STATUS_OK__;
+    //NRF24COM.whatHappened(tx,fail,rx);
+    if(NRF24COM.begin()){
+        if(NRF24COM.isChipConnected()){
+            //DisplayMessage(VAL_TO_STR(__COM_STATUS_OK__));
+            result=__COM_STATUS_OK__;
+        }
+        else{
+            //DisplayMessage(VAL_TO_STR(__COM_STATUS_NO_CHIP__));
+            result=__COM_STATUS_NO_CHIP__;
+        }
+        NRF24COM.stopListening();
     }
     else{
-        //DisplayMessage(VAL_TO_STR(__COM_STATUS_NO_CHIP__));
-        result=__COM_STATUS_NO_CHIP__;
-    }
-    if(fail){
-        //DisplayMessage(VAL_TO_STR(__COM_STATUS_GEN_FAIL__));
         result =__COM_STATUS_GEN_FAIL__;
     }
-    */
+
+    ComStatus=result;
+
     NRF24Setup();
 
     return result;
@@ -48,8 +52,8 @@ void NRF24Setup() {
             NRF24COM.openReadingPipe(1,addresses[COM_ROLE_TX]);
         }
 
-        if ( ComRole == (int)COM_ROLE_TX )
-            NRF24COM.startListening();
+        //if ( ComRole == (int)COM_ROLE_TX )
+        //    NRF24COM.startListening();
 
     }
     else
@@ -68,7 +72,7 @@ void NRF24Setup() {
 
 void NRF24Handler() 
 {
-/*     //DisplayMessage("COM started");
+    //DisplayMessage("COM started");
     if(NRF24COM.isChipConnected())
     {
         //DisplayMessage("COM connected");
@@ -80,6 +84,8 @@ void NRF24Handler()
             NRF24COM.read(NULL,  sizeof(NULL));
             
             NRF24COM.stopListening();                           //This sets the module  as transmitter
+            
+            NRF24Tx(RequestType);
 
             NRF24COM.write("AA",  sizeof("AA"));   //Sending the data
             NRF24COM.closeReadingPipe(1);
@@ -92,8 +98,7 @@ void NRF24Handler()
         }
     }       
     //DisplayMessage("COM NO CHIP");
- */
-    NRF24Tx(RequestType);
+ 
 }
 
 
@@ -106,28 +111,25 @@ void NRF24Tx(byte msg)
  * The irq callback function called when the radio hw irq is raised.
  * It gives the semaphore.
  */
-#if FEATURE_ENABLE==1
 void radio_set_role(short newrole)
 {
     if ( newrole == (int)COM_ROLE_TX )
     {
-        xSemaphoreTake(xMutex /*xRadioMutex*/, portMAX_DELAY);
+        //xSemaphoreTake(xMutex /*xRadioMutex*/, portMAX_DELAY);
         ComRole = (int)COM_ROLE_TX;
         NRF24COM.openWritingPipe(addresses[COM_ROLE_TX]);   
         NRF24COM.openReadingPipe(1,addresses[COM_ROLE_RX]);
         NRF24COM.stopListening();
-        xSemaphoreGive(xMutex /*xRadioMutex*/);
+        //xSemaphoreGive(xMutex /*xRadioMutex*/);
     }
     else if ( newrole == (int)COM_ROLE_RX )
     {
         // Become the primary receiver (pong back)
-        xSemaphoreTake(xMutex /*xRadioMutex*/, portMAX_DELAY);
+        //xSemaphoreTake(xMutex /*xRadioMutex*/, portMAX_DELAY);
         ComRole = (int)COM_ROLE_RX;
         NRF24COM.openWritingPipe(addresses[COM_ROLE_RX]);
         NRF24COM.openReadingPipe(1,addresses[COM_ROLE_TX]);
         NRF24COM.startListening();
-        xSemaphoreGive(xMutex /*xRadioMutex*/);
+        //xSemaphoreGive(xMutex /*xRadioMutex*/);
     }
 }
-
-#endif FEATURE_ENABLE

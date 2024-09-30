@@ -22,5 +22,6 @@ void DisplayMessageRow2(const char *cDispMsgBuf);
 void DisplayHeatingSymbol();
 void DisplayClearHeatingSymbol();
 
+void DisplayComStatusSymbol();
 
 #endif
