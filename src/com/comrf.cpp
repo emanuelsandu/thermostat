@@ -97,8 +97,13 @@ void NRF24Handler()
             NRF24COM.stopListening();
             //DisplayMessage("COM N/A");
         }
-    }       
-    //DisplayMessage("COM NO CHIP");
+        ComStatus=__COM_STATUS_OK__;
+    }   
+    else
+    {
+        
+        ComStatus=__COM_STATUS_NO_CHIP__;
+    }    
  
 }
 

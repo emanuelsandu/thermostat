@@ -1,6 +1,7 @@
 #ifndef AIO_H
 #define AIO_H
 
+//https://www.makerguides.com/ds18b20-arduino-tutorial/
 
 /*      INCLUDES     */
 #include "..\glob.h"

@@ -33,9 +33,10 @@
 #define OsDebugTaskPin1           8
 #define OsDebugTaskPin2           9
 #define OsDebugTaskPin3           10
-#define ComRfMOSIPin              11
-#define ComRfMISOPin              12
-#define ComRfSCKPin               13
+#define _RESERVED_ComRfSSPin_     10
+#define _RESERVED_ComRfMOSIPin_   11
+#define _RESERVED_ComRfMISOPin_   12
+#define _RESERVED_ComRfSCKPin_    13
 
 #endif __AVR_ATmega328P__
 

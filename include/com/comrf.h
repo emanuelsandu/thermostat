@@ -2,6 +2,12 @@
 #ifndef COMRF_H
 #define COMRF_H
 
+/* 
+* https://howtomechatronics.com/tutorials/arduino/arduino-wireless-communication-nrf24l01-tutorial/
+* https://projecthub.arduino.cc/tmekinyan/how-to-use-the-nrf24l01-module-with-arduino-813957
+* https://randomnerdtutorials.com/nrf24l01-2-4ghz-rf-transceiver-module-with-arduino/
+* https://projecthub.arduino.cc/lightthedreams/nrf24l01-for-communication-1-way-and-2-way-4da921
+*/
 
 #include "..\..\include\glob.h"
 #include <nRF24L01.h>

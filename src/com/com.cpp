@@ -18,7 +18,7 @@ short ComInit(){
 void ComHandler()
 {
     ComMessageHandler();
-    //NRF24Handler();
+    NRF24Handler();
 }
 
 void ComMessageHandler()

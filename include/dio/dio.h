@@ -1,6 +1,8 @@
 #ifndef DIO__H
 #define DIO_H
 
+//https://arduinokitproject.com/ttp223-touch-sensor-interfacing-with-arduino/
+
 #include "..\glob.h"
 
 

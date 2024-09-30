@@ -1,6 +1,5 @@
 #include"..\include\glob.h"
 
-//https://arduinogetstarted.com/tutorials/arduino-lcd-i2c
 LiquidCrystal_I2C Display16x2=LiquidCrystal_I2C(0x27, 16, 2); // I2C address 0x27, 16 column and 2 rows
 
 #define DispHeatingSymbolRow FirstRow
