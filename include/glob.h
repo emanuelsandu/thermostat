@@ -24,18 +24,18 @@
 
 #define _RESERVED_PIN_RX_         0
 #define _RESERVED_PIN_TX_         1
-#define OsDebugTaskPin1           2
-#define OsDebugTaskPin2           3
-#define OsDebugTaskPin3           4
+#define ComRfCEPin                2
+#define ComRfCSNPin               3
+#define ComRfIRQPin               4
 #define AioTemperatureSensorPin   5
 #define DioButtonPlusPin          6
 #define DioButtonMinusPin         7
-#define ComRfCEPin                8
-#define ComRfCSNPin               9
-#define ComRfIRQPin               10
-#define _RESERVED_PIN4_           11
-#define _RESERVED_PIN5_           12
-#define _RESERVED_PIN6_           13
+#define OsDebugTaskPin1           8
+#define OsDebugTaskPin2           9
+#define OsDebugTaskPin3           10
+#define ComRfMOSIPin              11
+#define ComRfMISOPin              12
+#define ComRfSCKPin               13
 
 #endif __AVR_ATmega328P__
 

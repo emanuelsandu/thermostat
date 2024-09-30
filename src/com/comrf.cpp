@@ -54,6 +54,7 @@ void NRF24Setup() {
 
         //if ( ComRole == (int)COM_ROLE_TX )
         //    NRF24COM.startListening();
+        ComStatus=__COM_STATUS_OK__;
 
     }
     else
