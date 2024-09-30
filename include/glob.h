@@ -11,6 +11,7 @@
 #include "..\include\os\os.h"
 #include "..\include\ui\ui.h"
 #include "..\include\util\util.h"
+#include"..\include\dev\dev.h"
 
 
 #define VAL_TO_STR(argvaltostr) #argvaltostr
